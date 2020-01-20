@@ -19,5 +19,6 @@ public class App
         attributen.add(attribute);
         BusinessRule facade  = new BusinessRuleFacade("1",attributen, values, "ACMP", "<");
         facade.createNewBusinessRule();
+        Server server = new Server(5000);
     }
 }
