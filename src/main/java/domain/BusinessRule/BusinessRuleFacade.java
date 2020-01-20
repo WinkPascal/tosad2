@@ -23,8 +23,6 @@ public class BusinessRuleFacade implements BusinessRule {
 	private String operator;
 	private String catagory;
 	
-	
-	
 	public BusinessRuleFacade(String id, List<Attribute> attributes, List<String> values, String code,
 			String operator) {
 		this.id = id;
@@ -34,8 +32,6 @@ public class BusinessRuleFacade implements BusinessRule {
 		this.operator = operator;
 	}
 	
-	
-
 	public void createNewBusinessRule() {
 		//DAO.getValuesFromById(id)
 		BusinessRuleStrategy businessRule= getBusinessRule();

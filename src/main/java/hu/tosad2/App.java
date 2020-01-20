@@ -7,10 +7,6 @@ import domain.BusinessRule.Attribute;
 import domain.BusinessRule.BusinessRule;
 import domain.BusinessRule.BusinessRuleFacade;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
