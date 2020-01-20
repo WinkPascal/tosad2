@@ -23,18 +23,32 @@ public class BusinessRuleFacade implements BusinessRule {
 	private String operator;
 	private String catagory;
 	
-	public void createNewBusinessRule(int id) {
+	
+	
+	public BusinessRuleFacade(String id, List<Attribute> attributes, List<String> values, String code,
+			String operator) {
+		this.id = id;
+		this.attributes = attributes;
+		this.values = values;
+		this.code = code;
+		this.operator = operator;
+	}
+	
+	
+
+	public void createNewBusinessRule() {
 		//DAO.getValuesFromById(id)
 		BusinessRuleStrategy businessRule= getBusinessRule();
 		String query = businessRule.createBusinessRule();
+		System.out.println(query);
 		//Dao.executeQuery(query);
 	}
 	
-	public void removeBusinessRule(int id) {
+	public void removeBusinessRule() {
 		
 	}
 	
-	public void updateBusinessRule(int id) {
+	public void updateBusinessRule() {
 		
 	}
 

@@ -1,9 +1,9 @@
 package domain.BusinessRule;
 
 public interface BusinessRule {
-	public void createNewBusinessRule(int id);
+	public void createNewBusinessRule();
 
-	public void removeBusinessRule(int id);
+	public void removeBusinessRule();
 
-	public void updateBusinessRule(int id);
+	public void updateBusinessRule();
 }
