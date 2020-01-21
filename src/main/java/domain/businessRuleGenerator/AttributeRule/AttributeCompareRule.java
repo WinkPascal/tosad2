@@ -26,12 +26,12 @@ public class AttributeCompareRule implements BusinessRuleStrategy{
 					"ON "+entiteit+" \n "+
 				"DECLARE \n" +
 					"value varchar2(255) := "+value+"; \n" +
-					"attribute"+ entiteit + "."+attribuut+"%type := :NEW."+attribuut+"; \n" +
+					"attribute "+ entiteit + "."+attribuut+"%type := :NEW."+attribuut+"; \n" +
 				"BEGIN \n" +
-					"IF attribute "+operator+" value THEN " +
-						"Raise_Application_Error (-20343, 'AttributeCompareRule');" +
-						"ROLLBACK; "+
-					"END IF;" + 
+					"IF attribute "+operator+" value THEN \n" +
+						"Raise_Application_Error (-20343, 'AttributeCompareRule'); \n" +
+						"ROLLBACK; \n"+
+					"END IF; \n" + 
 				"END "+ruleId;	
 		return trigger;
 	}

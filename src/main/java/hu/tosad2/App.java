@@ -1,13 +1,30 @@
 package hu.tosad2;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import java.util.ArrayList;
+import java.util.List;
+
+import domain.BusinessRule.Attribute;
+import domain.BusinessRule.BusinessRuleFacadeInterface;
+import domain.BusinessRule.BusinessRuleFacade;
+
+public class App
 {
-    public static void main( String[] args )
+
+
+    public static void main( String[] args ) throws InterruptedException
     {
-        System.out.println( "Hello World!" );
+        List<String> values = new ArrayList<String>();
+        values.add("1");
+        values.add("6");
+        List<Attribute> attributen = new ArrayList<Attribute>();
+        Attribute attribute = new Attribute("attribuut1", "entiteit1");
+        attributen.add(attribute);
+//        BusinessRuleFacadeInterface facade  = new BusinessRuleFacade("1",attributen, values, "ACMP", "<");
+//        facade.createNewBusinessRule();
+        new Server().startServer();
+
+
+
     }
+
 }

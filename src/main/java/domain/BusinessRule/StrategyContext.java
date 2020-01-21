@@ -1,5 +1,5 @@
 package domain.BusinessRule;
 
-public class Error {
+public class StrategyContext {
 
 }
