@@ -11,6 +11,7 @@ public class AttributeListRule implements BusinessRuleStrategy {
 	private String entiteit;
 	private String attribute;
 	private List<String> values;
+	private String errorMessage;
 
 	
 	public AttributeListRule(String ruleId, String entiteit, String attribute, List<String> values) {
@@ -31,13 +32,12 @@ public class AttributeListRule implements BusinessRuleStrategy {
 					+ "attribute " +entiteit+"."+attribute+"%type := :NEW."+attribute+" \n"
 				+ "BEGIN \n"
 					+ "IF attribute NOT IN "+getList()+ " THEN \n"
-						+ "Raise_Application_Error(-20343, 'deze is fout G');"
+						+ "Raise_Application_Error(-20343, '"+errorMessage+"');"
 						+ "ROLLBACK \n"
 					+ "END IF;"
 				+ "END "+ruleId;
 		return querie;
 	}
-
 
 	private String getList() {
 		String list = "(";
