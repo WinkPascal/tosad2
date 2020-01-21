@@ -17,7 +17,7 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 		try {
 			Connection con = getConnection();
 			PreparedStatement stm = con.prepareStatement(
-					"select t.type, r.code, r.code "
+					"select t.type, r.code, r.operator "
 					+ "from rule r join type t on r.typeId = t.id"
 					+ "where r.id = "+id);
 			
@@ -26,17 +26,36 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 				String type = dbResultSet.getString("type");
 				String code = dbResultSet.getString("code");
 				String operator = dbResultSet.getString("operator");
-				getAttributesByRule(id);
-				BusinessRule rule = new BusinessRule();
+				List<Attribute> attributes = getAttributesByRule(id);
+				List<String> values = getValuesByRule(id);
+				BusinessRule rule = new BusinessRule(Integer.toString(id), attributes, values, code, operator);
+				return rule;
 			}
 		}catch(Exception exc){
 			exc.printStackTrace();
 		}
 		
-		return id;
+		return null;
 	}
+	private List<String> getValuesByRule(int id) {
+		 List<String> values = new ArrayList<String>();
+		try {
+			Connection con = getConnection();
+			PreparedStatement stm = con.prepareStatement(
+					"select value "
+					+ "from value "
+					+ "where ruleId = "+id);
+			ResultSet dbResultSet = stm.executeQuery();
+			while(dbResultSet.next()) {
+				values.add(dbResultSet.getString("value"));
+			}
+		}catch(Exception exc){
+			exc.printStackTrace();
+		}		return values;
+	}
+	
 	private List<Attribute> getAttributesByRule(int id) {
-		 List<Attribute> attributes = new ArrayList<Attribute>
+		 List<Attribute> attributes = new ArrayList<Attribute>();
 		try {
 			Connection con = getConnection();
 			PreparedStatement stm = con.prepareStatement(
@@ -45,14 +64,15 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 					+ "where a.ruleId = "+id);
 			ResultSet dbResultSet = stm.executeQuery();
 			while(dbResultSet.next()) {
-				String type = dbResultSet.getString("type");
-				String code = dbResultSet.getString("code");
+				String name = dbResultSet.getString("name");
+				String entiteit = dbResultSet.getString("entiteit");
 				
-				Attribute attribute = new Attribute();
+				attributes.add(new Attribute(name, entiteit));
 			}
 		}catch(Exception exc){
 			exc.printStackTrace();
 		}
+		 return attributes;
 	}
 
 	@Override

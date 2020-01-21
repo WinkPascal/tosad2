@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import domain.BusinessRule.Attribute;
-import domain.BusinessRule.BusinessRule;
+import domain.BusinessRule.BusinessRuleFacadeInterface;
 import domain.BusinessRule.BusinessRuleFacade;
 
 public class App 
@@ -17,7 +17,7 @@ public class App
         List<Attribute> attributen = new ArrayList<Attribute>();
         Attribute attribute = new Attribute("attribuut1", "entiteit1");
         attributen.add(attribute);
-        BusinessRule facade  = new BusinessRuleFacade("1",attributen, values, "ACMP", "<");
+        BusinessRuleFacadeInterface facade  = new BusinessRuleFacade("1",attributen, values, "ACMP", "<");
         facade.createNewBusinessRule();
         Server server = new Server(5000);
     }
