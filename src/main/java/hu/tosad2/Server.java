@@ -1,65 +1,81 @@
 package hu.tosad2;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-// A Java program for a Server
-import java.net.*;
-import java.io.*;
+public class Server {
 
-public class Server
-{
-    //initialize socket and input stream
-    private Socket          socket   = null;
-    private ServerSocket    server   = null;
-    private DataInputStream in       =  null;
+    public static void main(String[] args) {
+        new Server().startServer();
+    }
 
-    // constructor with port
-    public Server(int port)
-    {
-        // starts server and waits for a connection
-        try
-        {
-            server = new ServerSocket(port);
-            System.out.println("Server started");
+    public void startServer() {
+        final ExecutorService clientProcessingPool = Executors.newFixedThreadPool(10);
 
-            System.out.println("Waiting for a client ...");
-
-            socket = server.accept();
-            System.out.println("Client accepted");
-
-            // takes input from the client socket
-            in = new DataInputStream(
-                    new BufferedInputStream(socket.getInputStream()));
-
-            String line = "";
-
-            // reads message from client until "Over" is sent
-            while (!line.equals("*STOP*"))
-            {
-                try
-                {
-                    line = in.readUTF();
-                    System.out.println(line);
-
-                }
-                catch(IOException i)
-                {
-                    System.out.println(i);
+        Runnable serverTask = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ServerSocket serverSocket = new ServerSocket(5000);
+                    System.out.println("Waiting for clients to connect...");
+                    while (true) {
+                        Socket clientSocket = serverSocket.accept();
+                        clientProcessingPool.submit(new ClientTask(clientSocket));
+                    }
+                } catch (IOException e) {
+                    System.err.println("Unable to process client request");
+                    e.printStackTrace();
                 }
             }
-            System.out.println("Closing connection");
+        };
+        Thread serverThread = new Thread(serverTask);
+        serverThread.start();
 
-            // close connection
-            socket.close();
-            in.close();
+    }
+
+    private class ClientTask implements Runnable {
+        private final Socket clientSocket;
+
+        private ClientTask(Socket clientSocket) {
+            this.clientSocket = clientSocket;
         }
-        catch(IOException i)
-        {
-            System.out.println(i);
+
+        @Override
+        public void run() {
+            System.out.println("Got a client !");
+
+
+            try {
+                DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
+                String line = "";
+                while(in.available() > 0) {
+                    try {
+                        line = in.readUTF();
+                        System.out.println(line);
+
+
+
+                    }
+                    catch(IOException i)
+                    {
+                        System.out.println(i);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public static void main(String args[])
-    {
-        Server server = new Server(5000);
-    }
 }

@@ -7,9 +7,11 @@ import domain.BusinessRule.Attribute;
 import domain.BusinessRule.BusinessRule;
 import domain.BusinessRule.BusinessRuleFacade;
 
-public class App 
+public class App
 {
-    public static void main( String[] args )
+
+
+    public static void main( String[] args ) throws InterruptedException
     {
         List<String> values = new ArrayList<String>();
         values.add("1");
@@ -19,6 +21,10 @@ public class App
         attributen.add(attribute);
         BusinessRule facade  = new BusinessRuleFacade("1",attributen, values, "ACMP", "<");
         facade.createNewBusinessRule();
-        Server server = new Server(5000);
+        new Server().startServer();
+
+
+
     }
+
 }
