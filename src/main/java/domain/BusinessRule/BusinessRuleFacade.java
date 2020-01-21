@@ -17,11 +17,9 @@ public class BusinessRuleFacade implements BusinessRule {
 	private String id;
 	private List<Attribute> attributes;
 	private List<String> values;
-	private Error error;
 	
 	private String code;
 	private String operator;
-	private String catagory;
 	
 	public BusinessRuleFacade(String id, List<Attribute> attributes, List<String> values, String code,
 			String operator) {
@@ -32,20 +30,22 @@ public class BusinessRuleFacade implements BusinessRule {
 		this.operator = operator;
 	}
 	
-	public void createNewBusinessRule() {
+	public static void createNewBusinessRule(int id) {
 		//DAO.getValuesFromById(id)
-		BusinessRuleStrategy businessRule= getBusinessRule();
+		BusinessRule rule = new BusinessRuleFacade();
+		BusinessRuleStrategy businessRule = rule.getBusinessRule();
 		String query = businessRule.createBusinessRule();
 		System.out.println(query);
 		//Dao.executeQuery(query);
 	}
 	
 	public void removeBusinessRule() {
-		
+		String query = "DROP TRIGGER "+ code+id;
+		//dao execute deze handel
 	}
 	
 	public void updateBusinessRule() {
-		
+	
 	}
 
 	private BusinessRuleStrategy getBusinessRule() {
