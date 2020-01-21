@@ -1,10 +1,16 @@
 package hu.tosad2;
 
+import domain.BusinessRule.BusinessRuleFacade;
+import domain.BusinessRule.BusinessRuleFacadeInterface;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.ParseException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -17,20 +23,17 @@ public class Server {
     public void startServer() {
         final ExecutorService clientProcessingPool = Executors.newFixedThreadPool(10);
 
-        Runnable serverTask = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    ServerSocket serverSocket = new ServerSocket(5000);
-                    System.out.println("Waiting for clients to connect...");
-                    while (true) {
-                        Socket clientSocket = serverSocket.accept();
-                        clientProcessingPool.submit(new ClientTask(clientSocket));
-                    }
-                } catch (IOException e) {
-                    System.err.println("Unable to process client request");
-                    e.printStackTrace();
+        Runnable serverTask = () -> {
+            try {
+                ServerSocket serverSocket = new ServerSocket(5000);
+                System.out.println("Waiting for client to send request...");
+                while (true) {
+                    Socket clientSocket = serverSocket.accept();
+                    clientProcessingPool.submit(new ClientTask(clientSocket));
                 }
+            } catch (IOException e) {
+                System.err.println("Unable to generate rule");
+                e.printStackTrace();
             }
         };
         Thread serverThread = new Thread(serverTask);
@@ -47,7 +50,7 @@ public class Server {
 
         @Override
         public void run() {
-            System.out.println("Got a client !");
+            System.out.println("Connected");
 
 
             try {
@@ -71,11 +74,43 @@ public class Server {
             }
 
             try {
+                System.out.println("Closing connection");
                 clientSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+    private void handleInput(String data) {
+        JSONParser parser = new JSONParser();
+        JSONObject json = null;
+        try {
+            json = (JSONObject) parser.parse(data);
 
+        } catch (org.json.simple.parser.ParseException e) {
+            e.printStackTrace();
+        }
+        int id = Integer.parseInt(json.get("id").toString());
+        String method = json.get("method").toString();
+
+        BusinessRuleFacadeInterface businessRuleFacade;
+        switch (method) {
+            case "generate":
+                businessRuleFacade = new BusinessRuleFacade(id);
+                businessRuleFacade.createNewBusinessRule();
+                break;
+            case "set":
+                businessRuleFacade = new BusinessRuleFacade(id);
+                businessRuleFacade.setBusinessRule();
+                break;
+            case "update":
+                businessRuleFacade = new BusinessRuleFacade(id);
+                businessRuleFacade.updateBusinessRule();
+                break;
+            case "remove":
+                businessRuleFacade = new BusinessRuleFacade(id);
+                businessRuleFacade.removeBusinessRule();
+                break;
+        }
+    }
 }

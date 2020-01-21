@@ -19,8 +19,8 @@ public class App
         List<Attribute> attributen = new ArrayList<Attribute>();
         Attribute attribute = new Attribute("attribuut1", "entiteit1");
         attributen.add(attribute);
-        BusinessRuleFacadeInterface facade  = new BusinessRuleFacade("1",attributen, values, "ACMP", "<");
-        facade.createNewBusinessRule();
+//        BusinessRuleFacadeInterface facade  = new BusinessRuleFacade("1",attributen, values, "ACMP", "<");
+//        facade.createNewBusinessRule();
         new Server().startServer();
 
 
