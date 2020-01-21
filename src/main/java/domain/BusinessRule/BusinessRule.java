@@ -38,6 +38,11 @@ public class BusinessRule implements BusinessRuleInterface{
 	public void setBusinessRule() {
 		
 	}
+	
+	public void remove() {
+		String query = "DROP TRIGGER "+ code+id;
+		//dao.execute(query);
+	}
 
 	private BusinessRuleStrategy getBusinessRule() {
 		BusinessRuleStrategy rule = null;

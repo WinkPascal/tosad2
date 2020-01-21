@@ -1,31 +1,22 @@
 package domain.BusinessRule;
 
-import java.util.List;
-
-import domain.businessRuleGenerator.BusinessRuleStrategy;
-import domain.businessRuleGenerator.AttributeRule.AttributeCompareRule;
-import domain.businessRuleGenerator.AttributeRule.AttributeListRule;
-import domain.businessRuleGenerator.AttributeRule.AttributeOtherRule;
-import domain.businessRuleGenerator.AttributeRule.AttributeRangeRule;
-import domain.businessRuleGenerator.EntityRule.EntityOtherRule;
-import domain.businessRuleGenerator.InterEntityRule.InterEntityCompareRule;
-import domain.businessRuleGenerator.TupleRule.TupleCompareRule;
-import domain.businessRuleGenerator.TupleRule.TupleOtherRule;
-import domain.businessRuleGeneratorChangeEventRule.ChangeEventRule;
+import database.ToolDatabase.ToolDatabaseDao;
+import database.ToolDatabase.ToolDatabaseDaoImpl;
  
 public class BusinessRuleFacade implements BusinessRuleFacadeInterface {
 	private int id;
 	
 	public String createNewBusinessRule() {
 		System.out.println("=-=================================================");
-		BusinessRule businessrule = DAO.getValuesFromById(id);
+		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
+		BusinessRule businessrule = dao.getValuesFromById(id);
 		return businessrule.generate();
 	}
 	
 	public void removeBusinessRule() {
-		BusinessRule businessrule = DAO.getValuesFromById(id);
-		String query = "DROP TRIGGER "+ code+id;
-		
+		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
+		BusinessRule businessrule = dao.getValuesFromById(id);
+		businessrule.remove();		
 	}
 	
 	public void updateBusinessRule() {
@@ -33,7 +24,8 @@ public class BusinessRuleFacade implements BusinessRuleFacadeInterface {
 	}
 	
 	public void setBusinessRule() {
-		BusinessRule businessrule = DAO.getValuesFromById(id);
+		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
+		BusinessRule businessrule = dao.getValuesFromById(id);
 		businessrule.setBusinessRule();
 	}
 

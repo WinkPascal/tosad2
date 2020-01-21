@@ -40,7 +40,4 @@ public class AttributeRangeRule implements BusinessRuleStrategy{
 				+ "END " + ruleId;
 		return trigger;
 	}
-
-
-
 }
