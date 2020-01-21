@@ -81,9 +81,6 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 			Connection con = getConnection();
 			Statement stm = con.createStatement();
 			
-			//String status = rule.getStatus();
-			//int id=  rule.getId();
-			
 			stm.executeQuery("UPDATE rule SET =  '" + status + "' WHERE id = " + id); 
 		}catch(Exception exc){
 			exc.printStackTrace();	
