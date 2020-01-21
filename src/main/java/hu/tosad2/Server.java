@@ -1,5 +1,6 @@
 package hu.tosad2;
 
+
 import domain.BusinessRule.BusinessRuleFacade;
 import domain.BusinessRule.BusinessRuleFacadeInterface;
 import org.json.simple.JSONObject;
@@ -113,4 +114,5 @@ public class Server {
                 break;
         }
     }
+
 }
