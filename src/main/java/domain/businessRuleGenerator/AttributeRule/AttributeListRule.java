@@ -31,7 +31,7 @@ public class AttributeListRule implements BusinessRuleStrategy {
 			+   "	attribute " +entiteit+"."+attribute+"%type := :NEW."+attribute+"; \n"
 			+   "BEGIN \n"
 			+   "	IF attribute NOT IN "+getList()+ " THEN \n"
-			+   "		Raise_Application_Error(-20343, '"+errorMessage+"'); \n"
+			+   "		Raise_Application_Error(-20343," +  attribute + " isn't found in " + getList() + " ); \n"
 			+   "		ROLLBACK; \n"
 			+   "	END IF; \n"
 			+   "END "+ruleId;

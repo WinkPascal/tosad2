@@ -40,7 +40,7 @@ public class InterEntityCompareRule implements BusinessRuleStrategy {
 					+ "where "+compareAttributePrimaryKey+" = newAttributeForeignKey; \n"
 					+ "\n"
 					+ "IF  newAttribute "+operator+" compareAttribute THEN \n"
-						+ "Raise_Application_Error (-20343, 'ICMP newAttribute > compareAttribute'); \n"
+						+ "Raise_Application_Error (-20343, newAttribute || ' can't be '|| operator || 'then' || compareAttribute ); \n"
 						+ "ROLLBACK; \n"
 					+ "END IF; \n"
 				+ "END "+ruleId;

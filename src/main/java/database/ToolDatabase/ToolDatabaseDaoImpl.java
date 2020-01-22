@@ -20,7 +20,7 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 					"select t.type, r.code, r.operator "
 					+ "from rule r join type t on r.typeId = t.id"
 					+ "where r.id = "+id);
-			
+			System.out.println(stm);
 			ResultSet dbResultSet = stm.executeQuery();
 			while(dbResultSet.next()) {
 				String type = dbResultSet.getString("type");

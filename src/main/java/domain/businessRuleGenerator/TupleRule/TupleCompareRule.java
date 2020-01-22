@@ -29,7 +29,7 @@ public class TupleCompareRule implements BusinessRuleStrategy {
 					+"attribuut2 "+entiteit+"."+attribuut2+"%type := :NEW."+attribuut2+"; \n"
 				+"BEGIN \n"
 					+"IF attribuut1 "+operator+" attribuut2 THEN \n"
-				       +"Raise_Application_Error (-20343, Attribuut1 || ' mag niet groter zijn dan' || attribuut2); /n"
+				       +"Raise_Application_Error (-20343, Attribuut1 || ' can't be ' || operator || ' then '   || attribuut2); /n"
 					   +"ROLLBACK;"
 			        +"END IF;"
 				+"END" +ruleId;

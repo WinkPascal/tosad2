@@ -29,7 +29,7 @@ public class AttributeCompareRule implements BusinessRuleStrategy{
 				"	attribute "+ entiteit + "."+attribuut+"%type := :NEW."+attribuut+"; \n" +
 				"BEGIN \n" +
 				"	IF attribute "+operator+" value THEN \n" +
-				"		Raise_Application_Error (-20343, 'AttributeCompareRule'); \n" +
+				"		Raise_Application_Error (-20343, " +attribuut  + "  can't be " + operator+  " then " +  value+ " ); \n" +
 				"		ROLLBACK; \n"+
 				"	END IF; \n" +
 				"END "+ruleId;	
