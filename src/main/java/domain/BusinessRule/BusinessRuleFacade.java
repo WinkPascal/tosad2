@@ -9,13 +9,13 @@ public class BusinessRuleFacade implements BusinessRuleFacadeInterface {
 	public String createNewBusinessRule() {
 		System.out.println("=-=================================================");
 		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
-		BusinessRule businessrule = dao.getValuesFromById(id);
+		BusinessRule businessrule = dao.getRuleById(id);
 		return businessrule.generate();
 	}
 	
 	public void removeBusinessRule() {
 		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
-		BusinessRule businessrule = dao.getValuesFromById(id);
+		BusinessRule businessrule = dao.getRuleById(id);
 		businessrule.remove();		
 	}
 	
@@ -25,7 +25,7 @@ public class BusinessRuleFacade implements BusinessRuleFacadeInterface {
 	
 	public void setBusinessRule() {
 		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
-		BusinessRule businessrule = dao.getValuesFromById(id);
+		BusinessRule businessrule = dao.getRuleById(id);
 		businessrule.setBusinessRule();
 	}
 

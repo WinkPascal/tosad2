@@ -21,17 +21,17 @@ public class AttributeCompareRule implements BusinessRuleStrategy{
 	@Override
 	public String createBusinessRule() {
 		String trigger = 
-				"CREATE OR REPLACE TRIGGER ACMP"+ruleId+ " \n"+
-					"BEFORE insert, update \n"+
-					"ON "+entiteit+" \n "+
+				"CREATE OR REPLACE TRIGGER "+ruleId+ " \n"+
+				"	BEFORE insert, update \n"+
+				"	ON "+entiteit+" FOR EACH ROW \n "+
 				"DECLARE \n" +
-					"value varchar2(255) := "+value+"; \n" +
-					"attribute "+ entiteit + "."+attribuut+"%type := :NEW."+attribuut+"; \n" +
+				"	value varchar2(255) := "+value+"; \n" +
+				"	attribute "+ entiteit + "."+attribuut+"%type := :NEW."+attribuut+"; \n" +
 				"BEGIN \n" +
-					"IF attribute "+operator+" value THEN \n" +
-						"Raise_Application_Error (-20343, 'AttributeCompareRule'); \n" +
-						"ROLLBACK; \n"+
-					"END IF; \n" + 
+				"	IF attribute "+operator+" value THEN \n" +
+				"		Raise_Application_Error (-20343, 'AttributeCompareRule'); \n" +
+				"		ROLLBACK; \n"+
+				"	END IF; \n" +
 				"END "+ruleId;	
 		return trigger;
 	}

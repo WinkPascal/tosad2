@@ -21,22 +21,22 @@ public class AttributeRangeRule implements BusinessRuleStrategy{
 	@Override
 	public String createBusinessRule() {
 		String trigger =
-				"CREATE OR REPLACE trigger" + ruleId + "\n"
-					+"AFTER insert or update \n"
-					+"ON '"+entiteit+"' \n"
+				"CREATE OR REPLACE trigger " + ruleId + "\n"
+				+"	AFTER insert or update \n"
+				+"	ON "+entiteit+" FOR EACH ROW \n"
 				+"DECLARE \n"
-					+"minLimit int := "+minLimit+"; \n"
-					+"maxLimit int := "+maxLimit+"; \n"
-					+"custumAttribute"+entiteit+"."+attribuut+"%type:= :NEW."+attribuut+"; \n"
+				+"	minLimit int := "+minLimit+"; \n"
+				+"	maxLimit int := "+maxLimit+"; \n"
+				+"	custumAttribute "+entiteit+"."+attribuut+"%type:= :NEW."+attribuut+"; \n"
 				+"BEGIN \n"
-				+ "if custumAttribute > maxLimit then \n"
-					+ "Raise_Application_Error (-20343, 'ARNG te groot');"
-					+ "ROLLBACK; "
-				+ "END IF; "
-				+ "if custumAttribute < minLimit then \n "
-					+ "Raise_Application_Error (-20343, 'tARNG te klein .'); \n "
-					+ "ROLLBACK; \n"
-				+ "END IF; \n"
+				+ "	if custumAttribute > maxLimit then \n"
+				+ "		Raise_Application_Error (-20343, 'ARNG te groot'); \n"
+				+ "		ROLLBACK; \n"
+				+ "	END IF; \n"
+				+ "	if custumAttribute < minLimit then \n "
+				+ "  	Raise_Application_Error (-20343, 'tARNG te klein .'); \n "
+		     	+ "		ROLLBACK; \n"
+				+ "	END IF; \n"
 				+ "END " + ruleId;
 		return trigger;
 	}

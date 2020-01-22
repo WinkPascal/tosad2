@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="tosad2" />
         <module name="TOSAD2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="TOSAD2" target="11" />
+      <module name="tosad2" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
