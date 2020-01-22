@@ -19,7 +19,7 @@ public class App
         List<Attribute> attributen = new ArrayList<Attribute>();
         Attribute attribute = new Attribute("attribuut1", "entiteit1");
         attributen.add(attribute);
-        BusinessRule facade  = new BusinessRule("1",attributen, values, "ACMP", "<");
+        BusinessRule facade  = new BusinessRule("1",attributen, values, "ALIS", "<");
         System.out.println(facade.generate());
 
     //    new Server().startServer();

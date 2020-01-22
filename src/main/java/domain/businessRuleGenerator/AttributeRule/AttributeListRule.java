@@ -25,17 +25,16 @@ public class AttributeListRule implements BusinessRuleStrategy {
 	public String createBusinessRule() {
 		String querie = 
 				"CREATE OR REPLACE TRIGGER "+ruleId+ " \n"
-					+ "AFTER INSERT, UPDATE \n"
-					+ "ON "+entiteit+" \n"
-				+ "DECLARE \n "
-				
-					+ "attribute " +entiteit+"."+attribute+"%type := :NEW."+attribute+" \n"
-				+ "BEGIN \n"
-					+ "IF attribute NOT IN "+getList()+ " THEN \n"
-						+ "Raise_Application_Error(-20343, '"+errorMessage+"');"
-						+ "ROLLBACK \n"
-					+ "END IF;"
-				+ "END "+ruleId;
+			+   "	AFTER INSERT or UPDATE \n"
+			+ 	"	ON "+entiteit+" FOR EACH ROW \n"
+			+   "DECLARE \n "
+			+   "	attribute " +entiteit+"."+attribute+"%type := :NEW."+attribute+"; \n"
+			+   "BEGIN \n"
+			+   "	IF attribute NOT IN "+getList()+ " THEN \n"
+			+   "		Raise_Application_Error(-20343, '"+errorMessage+"'); \n"
+			+   "		ROLLBACK; \n"
+			+   "	END IF; \n"
+			+   "END "+ruleId;
 		return querie;
 	}
 

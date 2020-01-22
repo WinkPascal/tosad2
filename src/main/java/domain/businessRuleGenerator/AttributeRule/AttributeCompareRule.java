@@ -22,7 +22,7 @@ public class AttributeCompareRule implements BusinessRuleStrategy{
 	public String createBusinessRule() {
 		String trigger = 
 				"CREATE OR REPLACE TRIGGER "+ruleId+ " \n"+
-				"	BEFORE insert, update \n"+
+				"	AFTER insert or update \n"+
 				"	ON "+entiteit+" FOR EACH ROW \n "+
 				"DECLARE \n" +
 				"	value varchar2(255) := "+value+"; \n" +
