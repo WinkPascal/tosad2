@@ -22,16 +22,16 @@ public class TupleCompareRule implements BusinessRuleStrategy {
 	public String createBusinessRule() {
 		String trigger =
 				"CREATE OR REPLACE trigger" + ruleId + "\n"
-					+"AFTER insert or update \n"
-					+"ON '"+entiteit+"' \n"
+				+"	AFTER insert or update \n"
+				+"	ON '"+entiteit+"' \n"
 				+"DECLARE \n"
-					+"attribuut1 "+entiteit+"."+attribuut1+"%type := :NEW."+attribuut1+"; \n"
-					+"attribuut2 "+entiteit+"."+attribuut2+"%type := :NEW."+attribuut2+"; \n"
+				+"	attribuut1 "+entiteit+"."+attribuut1+"%type := :NEW."+attribuut1+"; \n"
+				+"	attribuut2 "+entiteit+"."+attribuut2+"%type := :NEW."+attribuut2+"; \n"
 				+"BEGIN \n"
-					+"IF attribuut1 "+operator+" attribuut2 THEN \n"
-				       +"Raise_Application_Error (-20343, Attribuut1 || ' can't be ' || operator || ' then '   || attribuut2); /n"
-					   +"ROLLBACK;"
-			        +"END IF;"
+				+"	IF attribuut1 "+operator+" attribuut2 THEN \n"
+			    +"		Raise_Application_Error (-20343, Attribuut1 || ' can't be ' || operator || ' then '   || attribuut2); \n"
+				+"		ROLLBACK; \n"
+			    +"	END IF; \n"
 				+"END" +ruleId;
 		return trigger;
 	}

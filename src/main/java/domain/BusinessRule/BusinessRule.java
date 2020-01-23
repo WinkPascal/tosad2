@@ -11,7 +11,7 @@ import domain.businessRuleGenerator.EntityRule.EntityOtherRule;
 import domain.businessRuleGenerator.InterEntityRule.InterEntityCompareRule;
 import domain.businessRuleGenerator.TupleRule.TupleCompareRule;
 import domain.businessRuleGenerator.TupleRule.TupleOtherRule;
-import domain.businessRuleGeneratorChangeEventRule.ChangeEventRule;
+import domain.businessRuleGenerator.ChangeEventRule.ChangeEventRule;
 
 public class BusinessRule implements BusinessRuleInterface{
 	private String id;

@@ -1,8 +1,6 @@
-package hu.tosad2;
+package domain.BusinessRule;
 
 
-import domain.BusinessRule.BusinessRuleFacade;
-import domain.BusinessRule.BusinessRuleFacadeInterface;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -11,7 +9,6 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.ParseException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -52,8 +49,6 @@ public class Server {
         @Override
         public void run() {
             System.out.println("Connected");
-
-
             try {
                 DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                 String line = "";
@@ -61,9 +56,6 @@ public class Server {
                     try {
                         line = in.readUTF();
                         System.out.println(line);
-
-
-
                     }
                     catch(IOException i)
                     {
@@ -114,5 +106,4 @@ public class Server {
                 break;
         }
     }
-
 }

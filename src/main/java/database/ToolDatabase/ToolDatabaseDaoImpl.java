@@ -14,28 +14,39 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 
 	@Override
 	public BusinessRule getRuleById(int id) {
-		try {
-			Connection con = getConnection();
-			PreparedStatement stm = con.prepareStatement(
-					"select t.type, r.code, r.operator "
-					+ "from rule r join type t on r.typeId = t.id"
-					+ "where r.id = "+id);
-			System.out.println(stm);
-			ResultSet dbResultSet = stm.executeQuery();
-			while(dbResultSet.next()) {
-				String type = dbResultSet.getString("type");
-				String code = dbResultSet.getString("code");
-				String operator = dbResultSet.getString("operator");
-				List<Attribute> attributes = getAttributesByRule(id);
-				List<String> values = getValuesByRule(id);
-				BusinessRule rule = new BusinessRule(Integer.toString(id), attributes, values, code, operator);
-				return rule;
-			}
-		}catch(Exception exc){
-			exc.printStackTrace();
-		}
-		
-		return null;
+		List<String> values = new ArrayList<String>();
+		values.add("1");
+		values.add("6");
+		List<Attribute> attributen = new ArrayList<Attribute>();
+		Attribute attribute = new Attribute("attribuut1", "entiteit1");
+		Attribute attribute1 = new Attribute("attribuut2", "entiteit1");
+		attributen.add(attribute);
+		attributen.add(attribute1);
+
+		return new BusinessRule("1",attributen, values, "TCMP", "<");
+//
+//		try {
+//			Connection con = getConnection();
+//			PreparedStatement stm = con.prepareStatement(
+//					"select t.type, r.code, r.operator "
+//					+ "from rule r join type t on r.typeId = t.id"
+//					+ "where r.id = "+id);
+//			System.out.println(stm);
+//			ResultSet dbResultSet = stm.executeQuery();
+//			while(dbResultSet.next()) {
+//				String type = dbResultSet.getString("type");
+//				String code = dbResultSet.getString("code");
+//				String operator = dbResultSet.getString("operator");
+//				List<Attribute> attributes = getAttributesByRule(id);
+//				List<String> values = getValuesByRule(id);
+//				BusinessRule rule = new BusinessRule(Integer.toString(id), attributes, values, code, operator);
+//				return rule;
+//			}
+//		}catch(Exception exc){
+//			exc.printStackTrace();
+//		}
+//
+//		return null;
 	}
 	private List<String> getValuesByRule(int id) {
 		 List<String> values = new ArrayList<String>();
