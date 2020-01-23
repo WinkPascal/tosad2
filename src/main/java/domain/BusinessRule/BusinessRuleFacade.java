@@ -7,7 +7,6 @@ public class BusinessRuleFacade implements BusinessRuleFacadeInterface {
 	private int id;
 	
 	public String createNewBusinessRule() {
-		System.out.println("=-=================================================");
 		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
 		BusinessRule businessrule = dao.getRuleById(id);
 		return businessrule.generate();

@@ -36,16 +36,13 @@ public class Server {
         };
         Thread serverThread = new Thread(serverTask);
         serverThread.start();
-
     }
 
     private class ClientTask implements Runnable {
         private final Socket clientSocket;
-
         private ClientTask(Socket clientSocket) {
             this.clientSocket = clientSocket;
         }
-
         @Override
         public void run() {
             System.out.println("Connected");
@@ -74,7 +71,9 @@ public class Server {
             }
         }
     }
-    private void handleInput(String data) {
+    private String handleInput(String data) {
+        String returnValue = null;
+
         JSONParser parser = new JSONParser();
         JSONObject json = null;
         try {
@@ -90,7 +89,7 @@ public class Server {
         switch (method) {
             case "generate":
                 businessRuleFacade = new BusinessRuleFacade(id);
-                businessRuleFacade.createNewBusinessRule();
+                returnValue = businessRuleFacade.createNewBusinessRule();
                 break;
             case "set":
                 businessRuleFacade = new BusinessRuleFacade(id);
@@ -105,5 +104,6 @@ public class Server {
                 businessRuleFacade.removeBusinessRule();
                 break;
         }
+        return returnValue;
     }
 }
