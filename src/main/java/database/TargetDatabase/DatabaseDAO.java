@@ -8,9 +8,9 @@ import java.sql.Statement;
  public class DatabaseDAO {
 		protected static Connection conn;
 		private static final String DB_DRIV = "oracle.jdbc.driver.OracleDriver";
-		private static final String DB_URL = "jdbc:oracle:thin:@//localhost:1521/xepdb1";
-		private static final String DB_USER = "C##";
-		private static final String DB_PASS = "tosad";
+		private static final String DB_URL = "jdbc:oracle:thin:@//ondora04.hu.nl:8521/EDUC22";
+		private static final String DB_USER = "TOSAD";
+	 	private static final String DB_PASS = "TOSAD";
 
 		protected static Connection getConnection() throws SQLException {
 			try {
