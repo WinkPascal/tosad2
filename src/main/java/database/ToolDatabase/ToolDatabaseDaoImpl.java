@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.TargetDatabase.DatabaseDAO;
 import domain.BusinessRule.Attribute;
 import domain.BusinessRule.BusinessRule;
 public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao {
@@ -28,7 +27,7 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 		try {
 			Connection con = getConnection();
 			PreparedStatement stm = con.prepareStatement(
-					"select r.code, r.operator from RULE r join type t on r.typeid = t.id where r.id = 22");
+					"select r.code, r.operator from RULE r join SQLQUERY t on r.sqlqueryid = t.id where r.id = 22");
 			System.out.println(stm);
 			ResultSet dbResultSet = stm.executeQuery();
 			while(dbResultSet.next()) {
@@ -52,7 +51,7 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 			PreparedStatement stm = con.prepareStatement(
 					"select value "
 					+ "from value "
-					+ "where ruleId = "+id);
+					+ "where attributeid = "+id);
 			ResultSet dbResultSet = stm.executeQuery();
 			while(dbResultSet.next()) {
 				values.add(dbResultSet.getString("value"));
@@ -67,9 +66,9 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 		try {
 			Connection con = getConnection();
 			PreparedStatement stm = con.prepareStatement(
-					"select a.name, a.value "
-					+ "from attribute a "
-					+ "where a.ruleId = "+id);
+					"select a.name, v.value "
+					+ "from attribute a  join value v  on a.id = v.attributeid "
+					+ "where v.attributeid = "+id);
 			ResultSet dbResultSet = stm.executeQuery();
 			while(dbResultSet.next()) {
 				String name = dbResultSet.getString("name");

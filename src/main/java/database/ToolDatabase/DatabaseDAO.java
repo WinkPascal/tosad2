@@ -1,4 +1,4 @@
-package database.TargetDatabase;
+package database.ToolDatabase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

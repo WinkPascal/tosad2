@@ -1,5 +1,7 @@
 package database.TargetDatabase;
 
+import database.ToolDatabase.DatabaseDAO;
+
 import java.sql.Connection;
 import java.sql.Statement;
 
