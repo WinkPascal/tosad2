@@ -1,12 +1,12 @@
 package domain.BusinessRule;
 
 
+import domain.businessRuleGenerator.AttributeRule.AttributeCompareRule;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -47,12 +47,21 @@ public class Server {
         public void run() {
             System.out.println("Connected");
             try {
+                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
                 DataInputStream in = new DataInputStream(new BufferedInputStream(clientSocket.getInputStream()));
                 String line = "";
                 while(in.available() > 0) {
                     try {
                         line = in.readUTF();
                         System.out.println(line);
+
+
+                        System.out.println(line);
+                        out.println(handleInput(line));
+                        System.out.println(handleInput(line));
+
+
+
                     }
                     catch(IOException i)
                     {
@@ -82,7 +91,7 @@ public class Server {
         } catch (org.json.simple.parser.ParseException e) {
             e.printStackTrace();
         }
-        int id = Integer.parseInt(json.get("id").toString());
+        int id = Integer.parseInt(json.get("ruleId").toString());
         String method = json.get("method").toString();
 
         BusinessRuleFacadeInterface businessRuleFacade;

@@ -35,4 +35,6 @@ public class AttributeCompareRule implements BusinessRuleStrategy{
 				"END "+ruleId+";";
 		return trigger;
 	}
+
+
 }
