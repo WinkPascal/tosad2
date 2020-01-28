@@ -87,12 +87,11 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 	public String getQueryById(int id){
 		try {
 			Connection con = getConnection();
-			PreparedStatement stm = con.prepareStatement("SELECT code FROM type " +
-					"WHERE id= "+ id);
+			PreparedStatement stm = con.prepareStatement("SELECT SQLCODE FROM RULE " +
+					"WHERE id = "+ id);
 			ResultSet dbResultSet = stm.executeQuery();
 			while(dbResultSet.next()) {
-				String code = dbResultSet.getString("code");
-				return code;
+				return dbResultSet.getString("SQLCODE");
 			}
 
 		}catch(Exception exc){

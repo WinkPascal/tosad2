@@ -33,15 +33,9 @@ public class BusinessRule implements BusinessRuleInterface{
 	}
 	
 	public String generate() {
-		System.out.println(code);
-		System.out.println(operator);
-		System.out.println(attributes.get(0));
 		BusinessRuleStrategy businessRule = getBusinessRule();
 		String query = businessRule.createBusinessRule();
 		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
-		System.out.println("=============================================");
-		System.out.println(query);
-		System.out.println("=============================================");
 		toolDatabase.setGenerateSqlQuery(Integer.parseInt(id), query);
 		return query;
 	}
