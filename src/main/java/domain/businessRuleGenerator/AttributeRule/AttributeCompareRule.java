@@ -32,7 +32,7 @@ public class AttributeCompareRule implements BusinessRuleStrategy{
 				"		Raise_Application_Error (-20343, '" +attribuut  + "  can not be " + operator+  " then " +  value+ "'); \n" +
 				"		ROLLBACK; \n"+
 				"	END IF; \n" +
-				"END "+ruleId;	
+				"END "+ruleId+";";
 		return trigger;
 	}
 }
