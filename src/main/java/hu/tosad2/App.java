@@ -6,9 +6,8 @@ import domain.BusinessRule.BusinessRuleFacadeInterface;
 
 public class App{
     public static void main( String[] args ) throws InterruptedException {
-        BusinessRuleFacadeInterface businessRuleFacade = new BusinessRuleFacade(66);
+        BusinessRuleFacadeInterface businessRuleFacade = new BusinessRuleFacade(7);
         businessRuleFacade.createNewBusinessRule();
-        System.out.println(businessRuleFacade.createNewBusinessRule());
-        businessRuleFacade.setBusinessRule();
+        businessRuleFacade.createNewBusinessRule();
     }
 }

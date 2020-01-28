@@ -30,11 +30,11 @@ public class AttributeRangeRule implements BusinessRuleStrategy{
 				+"	custumAttribute "+entiteit+"."+attribuut+"%type:= :NEW."+attribuut+"; \n"
 				+"BEGIN \n"
 				+ "	if custumAttribute >  maxLimit  then \n"
-				+ "		Raise_Application_Error (-20343,'" + attribuut+ "  has a greater value then " + maxLimit+ "' ); \n"
+				+ "		Raise_Application_Error (-20343," + attribuut+ "  has a greater value then " + maxLimit+ " ); \n"
 				+ "		ROLLBACK; \n"
 				+ "	END IF; \n"
 				+ "	if custumAttribute < minLimit then \n "
-				+ "  	Raise_Application_Error (-20343, '"+  attribuut+ "  has a lower value then "+ minLimit+ "' ); \n "
+				+ "  	Raise_Application_Error (-20343, "+  attribuut+ "  has a lower value then "+ minLimit+ " ); \n "
 		     	+ "		ROLLBACK; \n"
 				+ "	END IF; \n"
 				+ "END " + ruleId;
