@@ -13,29 +13,17 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 
 	@Override
 	public BusinessRule getRuleById(int id) {
-	/*	List<String> values = new ArrayList<String>();
-		values.add("1");
-		values.add("6");
-		List<Attribute> attributen = new ArrayList<Attribute>();
-		Attribute attribute = new Attribute("attribuut1", "entiteit1");
-		Attribute attribute1 = new Attribute("attribuut2", "entiteit1");
-		attributen.add(attribute);
-		attributen.add(attribute1);
-
-		return new BusinessRule("1",attributen, values, "TCMP", "<");*/
-
 		try {
 			Connection con = getConnection();
 			PreparedStatement stm = con.prepareStatement(
-					"select r.code, r.operator from RULE r join SQLQUERY t on r.sqlqueryid = t.id where r.id = 22");
+					"select code, operator from RULE where id = 22");
 			System.out.println(stm);
 			ResultSet dbResultSet = stm.executeQuery();
 			while(dbResultSet.next()) {
 				String code = dbResultSet.getString("code");
 				String operator = dbResultSet.getString("operator");
 				List<Attribute> attributes = getAttributesByRule(id);
-				List<String> values = getValuesByRule(id);
-				BusinessRule rule = new BusinessRule(Integer.toString(id), attributes, values, code, operator);
+				BusinessRule rule = new BusinessRule(Integer.toString(id), attributes, code, operator);
 				return rule;
 			}
 		}catch(Exception exc){
@@ -44,50 +32,53 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 
 		return null;
 	}
-	private List<String> getValuesByRule(int id) {
-		 List<String> values = new ArrayList<String>();
+
+	public ArrayList<Attribute> getAttributesByRule(int ruleId) {
+		ArrayList<Attribute> attributes = new ArrayList<Attribute>();
 		try {
-			Connection con = getConnection();
-			PreparedStatement stm = con.prepareStatement(
-					"select value "
-					+ "from value "
-					+ "where attributeid = "+id);
-			ResultSet dbResultSet = stm.executeQuery();
-			while(dbResultSet.next()) {
-				values.add(dbResultSet.getString("value"));
-			}
-		}catch(Exception exc){
-			exc.printStackTrace();
-		}		return values;
-	}
-	
-	private List<Attribute> getAttributesByRule(int id) {
-		 List<Attribute> attributes = new ArrayList<Attribute>();
-		try {
-			Connection con = getConnection();
-			PreparedStatement stm = con.prepareStatement(
-					"select a.name, v.value "
-					+ "from attribute a  join value v  on a.id = v.attributeid "
-					+ "where v.attributeid = "+id);
-			ResultSet dbResultSet = stm.executeQuery();
-			while(dbResultSet.next()) {
-				String name = dbResultSet.getString("name");
-				String entiteit = dbResultSet.getString("entiteit");
-				
-				attributes.add(new Attribute(name, entiteit));
+			Connection myConn = super.getConnection();
+			Statement stm = myConn.createStatement();
+			ResultSet rs = stm.executeQuery("SELECT * FROM ATTRIBUTE WHERE ruleId = "+ruleId);
+			while(rs.next()) {
+				ArrayList<String> values = new ArrayList<String>();
+
+				int attributeId = rs.getInt("id");
+				values = getValuesByAttribute(attributeId);
+
+				String name = rs.getString("name");
+				String entiteit = rs.getString("entity");
+
+				attributes.add(new Attribute(attributeId, name, entiteit, values));
 			}
 		}catch(Exception exc){
 			exc.printStackTrace();
 		}
-		 return attributes;
+		return attributes;
 	}
-	public void setGenerateSqlQuery(int id, String code){
+
+	public ArrayList<String> getValuesByAttribute(int attributeId) {
+		ArrayList<String> values = new ArrayList<String>();
+		try {
+			Connection myConn = super.getConnection();
+			Statement stm = myConn.createStatement();
+			ResultSet rs = stm.executeQuery("SELECT value FROM VALUE WHERE attributeId = "+attributeId);
+			while(rs.next()) {
+				values.add(rs.getString(1));
+			}
+		}catch(Exception exc){
+			exc.printStackTrace();
+		}
+		return values;
+	}
+
+	public void setGenerateSqlQuery(int id, String query){
 		try {
 			Connection con = getConnection();
-			Statement stm = con.createStatement();
+			PreparedStatement stm = con.prepareStatement("update RULE set SQLCODE = ?" +
+					" WHERE id = " + id);
+			stm.setString(1, query);
 
-			stm.executeQuery("INSERT INTO type (id, code) " +
-					"values(" +id + ", " +code+ ");");
+			stm.executeUpdate();
 		}catch(Exception exc){
 			exc.printStackTrace();
 		}
@@ -117,12 +108,11 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 			Connection con = getConnection();
 			Statement stm = con.createStatement();
 			
-			stm.executeQuery("UPDATE rule SET =  '" + status + "' WHERE id = " + id); 
+			stm.executeQuery("UPDATE rule SET =  '" + status + "' WHERE id = " + id);
+
 		}catch(Exception exc){
 			exc.printStackTrace();	
 		}
 		
 	}
-
-
 }

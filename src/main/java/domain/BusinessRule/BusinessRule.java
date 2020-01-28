@@ -2,6 +2,10 @@ package domain.BusinessRule;
 
 import java.util.List;
 
+import database.TargetDatabase.TargetDatabaseDao;
+import database.TargetDatabase.TargetDatabaseDaoImpl;
+import database.ToolDatabase.ToolDatabaseDao;
+import database.ToolDatabase.ToolDatabaseDaoImpl;
 import domain.businessRuleGenerator.BusinessRuleStrategy;
 import domain.businessRuleGenerator.AttributeRule.AttributeCompareRule;
 import domain.businessRuleGenerator.AttributeRule.AttributeListRule;
@@ -16,32 +20,56 @@ import domain.businessRuleGenerator.ChangeEventRule.ChangeEventRule;
 public class BusinessRule implements BusinessRuleInterface{
 	private String id;
 	private List<Attribute> attributes;
-	private List<String> values;
-	
+
 	private String code;
 	private String operator;
 	
-	public BusinessRule(String id, List<Attribute> attributes, List<String> values, String code,
+	public BusinessRule(String id, List<Attribute> attributes, String code,
 			String operator) {
 		this.id = id;
 		this.attributes = attributes;
-		this.values = values;
 		this.code = code;
 		this.operator = operator;
 	}
 	
 	public String generate() {
+		System.out.println(code);
+		System.out.println(operator);
+		System.out.println(attributes.get(0));
 		BusinessRuleStrategy businessRule = getBusinessRule();
-		return businessRule.createBusinessRule();
+		String query = businessRule.createBusinessRule();
+		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
+		System.out.println("=============================================");
+		System.out.println(query);
+		System.out.println("=============================================");
+		toolDatabase.setGenerateSqlQuery(Integer.parseInt(id), query);
+		return query;
 	}
 	
 	public void setBusinessRule() {
-		
+		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
+		String query = toolDatabase.getQueryById(Integer.parseInt(id));
+		TargetDatabaseDao targetDatabase = new TargetDatabaseDaoImpl();
+		targetDatabase.execute(query);
 	}
 	
 	public void remove() {
-		String query = "DROP TRIGGER "+ code+id;
-		//dao.execute(query);
+		String query = "DROP TRIGGER " + getTriggerId() + ";";
+		TargetDatabaseDao targetDatabase= new TargetDatabaseDaoImpl();
+		targetDatabase.execute(query);
+	}
+
+	public  void update(){
+		BusinessRuleStrategy businessRule = getBusinessRule();
+		String query = businessRule.createBusinessRule();
+		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
+		toolDatabase.setGenerateSqlQuery(Integer.parseInt(id), query);
+		TargetDatabaseDao targetDatabase = new TargetDatabaseDaoImpl();
+		targetDatabase.execute(query);
+	}
+
+	private String getTriggerId(){
+		return code+id;
 	}
 
 	private BusinessRuleStrategy getBusinessRule() {
@@ -49,31 +77,31 @@ public class BusinessRule implements BusinessRuleInterface{
 		switch(code) {
 		//attribute rules
 		case "ARNG":
-			rule = new AttributeRangeRule("ARNG"+id, 					
+			rule = new AttributeRangeRule(getTriggerId(),
 					attributes.get(0).getEntiteit(),
-					values.get(0),
-					values.get(1),
+					attributes.get(0).getValues().get(0),
+					attributes.get(0).getValues().get(1),
 					attributes.get(0).getNaam());
 			break;
 		case "ACMP":
-			rule = new AttributeCompareRule("ACMP"+id, 
+			rule = new AttributeCompareRule(getTriggerId(),
 					operator, 
 					attributes.get(0).getNaam(),
-					values.get(0),
+					attributes.get(0).getValues().get(0),
 					attributes.get(0).getEntiteit());
 			break;
 		case "ALIS":
-			rule = new AttributeListRule("ALIS"+id, 
+			rule = new AttributeListRule(getTriggerId(),
 					attributes.get(0).getEntiteit(),
 					attributes.get(0).getNaam(),
-					values);
+					attributes.get(0).getValues());
 			break;
 		case "AOTH":
 			rule = new AttributeOtherRule();
 			break;
 		//tuple rules
 		case "TCMP":
-			rule = new TupleCompareRule("TCMP"+id,
+			rule = new TupleCompareRule(getTriggerId(),
 					attributes.get(0).getEntiteit(),
 					operator,
 					attributes.get(0).getNaam(),
@@ -84,7 +112,7 @@ public class BusinessRule implements BusinessRuleInterface{
 			break;
 		// inter entity rule
 		case "ICMP":
-			rule = new InterEntityCompareRule("ICMP"+id,
+			rule = new InterEntityCompareRule(getTriggerId(),
 					operator,
 					attributes.get(0).getNaam(),
 					attributes.get(1).getNaam(),
