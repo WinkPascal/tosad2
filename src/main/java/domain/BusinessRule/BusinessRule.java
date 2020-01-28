@@ -35,31 +35,44 @@ public class BusinessRule implements BusinessRuleInterface{
 	public String generate() {
 		BusinessRuleStrategy businessRule = getBusinessRule();
 		String query = businessRule.createBusinessRule();
+
 		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
 		toolDatabase.setGenerateSqlQuery(Integer.parseInt(id), query);
+		toolDatabase.updateStatus(Integer.parseInt(id), "generated");
+
 		return query;
 	}
 	
 	public void setBusinessRule() {
 		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
 		String query = toolDatabase.getQueryById(Integer.parseInt(id));
+
 		TargetDatabaseDao targetDatabase = new TargetDatabaseDaoImpl();
 		targetDatabase.execute(query);
+
+		toolDatabase.updateStatus(Integer.parseInt(id), "executed");
 	}
 	
 	public void remove() {
-		String query = "DROP TRIGGER " + getTriggerId() + ";";
-		TargetDatabaseDao targetDatabase= new TargetDatabaseDaoImpl();
+		String query = "DROP TRIGGER " + getTriggerId();
+		TargetDatabaseDao targetDatabase = new TargetDatabaseDaoImpl();
 		targetDatabase.execute(query);
+
+		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
+		toolDatabase.updateStatus(Integer.parseInt(id), "removed");
 	}
 
 	public  void update(){
 		BusinessRuleStrategy businessRule = getBusinessRule();
 		String query = businessRule.createBusinessRule();
+
 		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
 		toolDatabase.setGenerateSqlQuery(Integer.parseInt(id), query);
+
 		TargetDatabaseDao targetDatabase = new TargetDatabaseDaoImpl();
 		targetDatabase.execute(query);
+
+		toolDatabase.updateStatus(Integer.parseInt(id), "updated");
 	}
 
 	private String getTriggerId(){
@@ -68,6 +81,7 @@ public class BusinessRule implements BusinessRuleInterface{
 
 	private BusinessRuleStrategy getBusinessRule() {
 		BusinessRuleStrategy rule = null;
+		System.out.println(code +" ============");
 		switch(code) {
 		//attribute rules
 		case "ARNG":
