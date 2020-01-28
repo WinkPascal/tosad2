@@ -16,7 +16,7 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 		try {
 			Connection con = getConnection();
 			PreparedStatement stm = con.prepareStatement(
-					"select code, operator from RULE where id = 22");
+					"select code, operator from RULE where id = "+id);
 			System.out.println(stm);
 			ResultSet dbResultSet = stm.executeQuery();
 			while(dbResultSet.next()) {
@@ -107,7 +107,7 @@ public class ToolDatabaseDaoImpl extends DatabaseDAO implements ToolDatabaseDao 
 			Connection con = getConnection();
 			Statement stm = con.createStatement();
 			
-			stm.executeQuery("UPDATE rule SET =  '" + status + "' WHERE id = " + id);
+			stm.executeQuery("UPDATE rule SET status =  '" + status + "' WHERE id = " + id);
 
 		}catch(Exception exc){
 			exc.printStackTrace();	
