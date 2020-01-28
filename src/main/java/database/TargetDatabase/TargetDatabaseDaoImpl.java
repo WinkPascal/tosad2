@@ -13,7 +13,6 @@ public class TargetDatabaseDaoImpl extends TargetDatabase implements TargetDatab
 		try {
 			Connection con = getConnection();
 			Statement stm = con.createStatement();
-			System.out.print(query);
 			stm.executeQuery(query);
 
 		}catch(Exception exc){

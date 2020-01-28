@@ -14,7 +14,6 @@ public class TargetDatabase {
     protected static Connection getConnection() throws SQLException {
         try {
             Class.forName(DB_DRIV).newInstance();
-            System.out.println("connection");
         } catch (InstantiationException | IllegalAccessException | ClassNotFoundException e1) {
             e1.printStackTrace();
         }
