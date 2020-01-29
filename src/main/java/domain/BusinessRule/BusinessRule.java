@@ -51,6 +51,8 @@ public class BusinessRule implements BusinessRuleInterface{
 		targetDatabase.execute(query);
 
 		toolDatabase.updateStatus(Integer.parseInt(id), "executed");
+
+
 	}
 	
 	public void remove() {
