@@ -110,7 +110,8 @@ public class Server {
                 break;
             case "remove":
                 businessRuleFacade = new BusinessRuleFacade(id);
-                businessRuleFacade.removeBusinessRule();
+                returnValue =  businessRuleFacade.removeBusinessRule();
+
                 break;
         }
         return returnValue;

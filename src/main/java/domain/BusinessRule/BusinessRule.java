@@ -1,5 +1,6 @@
 package domain.BusinessRule;
 
+import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
 import database.TargetDatabase.TargetDatabaseDao;
@@ -55,13 +56,21 @@ public class BusinessRule implements BusinessRuleInterface{
 
 	}
 	
-	public void remove() {
+	public String remove() {
+
 		String query = "DROP TRIGGER " + getTriggerId();
 		TargetDatabaseDao targetDatabase = new TargetDatabaseDaoImpl();
-		targetDatabase.execute(query);
+		if(targetDatabase.execute(query)) {
+			ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
+			toolDatabase.updateStatus(Integer.parseInt(id), "removed");
+			return "Rule met id: " + id + " verwijderd";
+		}
 
-		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
-		toolDatabase.updateStatus(Integer.parseInt(id), "removed");
+		else{
+			return "Kon rule met id: " + id + " niet verwijderen";
+		}
+
+
 	}
 
 	public  void update(){

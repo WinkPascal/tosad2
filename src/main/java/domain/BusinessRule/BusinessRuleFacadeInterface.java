@@ -3,7 +3,7 @@ package domain.BusinessRule;
 public interface BusinessRuleFacadeInterface {
 	public String createNewBusinessRule();
 
-	public void removeBusinessRule();
+	public String removeBusinessRule();
 
 	public void updateBusinessRule();
 

@@ -1,7 +1,5 @@
 package database.TargetDatabase;
 
-import database.ToolDatabase.DatabaseDAO;
-
 import java.sql.Connection;
 import java.sql.Statement;
 
@@ -9,14 +7,16 @@ import java.sql.Statement;
 public class TargetDatabaseDaoImpl extends TargetDatabase implements TargetDatabaseDao {
 
 	@Override
-	public void execute(String query) {
+	public boolean execute(String query) {
 		try {
 			Connection con = getConnection();
 			Statement stm = con.createStatement();
 			stm.executeQuery(query);
+			return true;
 
 		}catch(Exception exc){
-			exc.printStackTrace();	
+			exc.printStackTrace();
+			return false;
 		}
 		
 	}

@@ -2,6 +2,6 @@ package database.TargetDatabase;
 
 
 public interface TargetDatabaseDao {
-	public void execute (String query);
+	public boolean execute (String query);
 	
 }

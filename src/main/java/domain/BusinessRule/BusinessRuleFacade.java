@@ -12,10 +12,10 @@ public class BusinessRuleFacade implements BusinessRuleFacadeInterface {
 		return businessrule.generate();
 	}
 	
-	public void removeBusinessRule() {
+	public String removeBusinessRule() {
 		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
 		BusinessRule businessrule = dao.getRuleById(id);
-		businessrule.remove();		
+		return businessrule.remove();
 	}
 	
 	public void updateBusinessRule() {
