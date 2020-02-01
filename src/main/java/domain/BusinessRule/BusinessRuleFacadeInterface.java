@@ -5,7 +5,7 @@ public interface BusinessRuleFacadeInterface {
 
 	public String removeBusinessRule();
 
-	public void updateBusinessRule();
+	public String updateBusinessRule();
 
 	public void setBusinessRule();
 }
