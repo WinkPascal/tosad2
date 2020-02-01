@@ -136,8 +136,8 @@ public class BusinessRule implements BusinessRuleInterface{
 					attributes.get(0).getNaam(),
 					attributes.get(1).getNaam(),
 					attributes.get(0).getEntiteit(),
-					attributes.get(2).getNaam(),
-					attributes.get(3).getNaam());
+					attributes.get(1).getNaam(),
+					attributes.get(1).getNaam());
 			break;
 		//entity rule
 		case "EOTH":

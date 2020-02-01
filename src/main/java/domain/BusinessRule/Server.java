@@ -58,7 +58,6 @@ public class Server {
 
                         System.out.println(line);
                         out.println(handleInput(line));
-                        System.out.println(handleInput(line));
 
 
 

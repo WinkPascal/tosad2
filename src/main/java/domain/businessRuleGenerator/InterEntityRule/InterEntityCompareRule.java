@@ -27,23 +27,23 @@ public class InterEntityCompareRule implements BusinessRuleStrategy {
 	@Override
 	public String createBusinessRule() {
 		String trigger =
-				"CREATE OR REPLACE trigger" + ruleId + "\n"
-					+"AFTER insert or update \n"
-					+"ON '"+entiteit+"' \n"
-				+"DECLARE \n"
-					+"newAttribute"+entiteit+"."+attribuut1+"%type := :NEW."+attribuut1+" \n"
-					+"newAttributeForeignKey "+entiteit+"."+attribute1ForeignKey+"%type := :NEW."+attribute1ForeignKey+" \n"
-					+"compareAttribute int; \n"
-				+ "BEGIN \n"
-					+ "select "+compareAttribute+" INTO compareAttribute \n"
-					+ "from "+entiteit+" \n"
-					+ "where "+compareAttributePrimaryKey+" = newAttributeForeignKey; \n"
-					+ "\n"
-					+ "IF  newAttribute "+operator+" compareAttribute THEN \n"
-						+ "Raise_Application_Error (-20343,' newAttribute can not " + operator + " then  compareAttribute' ); \n"
-						+ "ROLLBACK; \n"
-					+ "END IF; \n"
-				+ "END "+ruleId;
+			"CREATE OR REPLACE trigger " + ruleId + "\n"
+			+"	BEFORE insert or update \n"
+			+"	ON "+entiteit+" \n"
+			+"	FOR EACH ROW \n"
+			+"DECLARE \n"
+			+"	newAttribute "+entiteit+"."+attribuut1+"%type := :NEW."+attribuut1+"; \n"
+			+"	newAttributeForeignKey "+entiteit+"."+attribute1ForeignKey+"%type := :NEW."+attribute1ForeignKey+"; \n"
+			+"	compareAttribute int; \n"
+			+ "BEGIN \n"
+			+ "	select "+compareAttribute+" INTO compareAttribute \n"
+			+ "	from "+entiteit+" \n"
+			+ "	where "+compareAttributePrimaryKey+" = newAttributeForeignKey; \n"
+			+ "	IF  newAttribute "+operator+" compareAttribute THEN \n"
+			+ "		Raise_Application_Error (-20343,' newAttribute can not " + operator + " then  compareAttribute' ); \n"
+			+ "		ROLLBACK; \n"
+			+ "	END IF; \n"
+			+ "END;";
 						
 		return trigger;
 	}

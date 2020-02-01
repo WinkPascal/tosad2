@@ -21,18 +21,19 @@ public class TupleCompareRule implements BusinessRuleStrategy {
 	@Override
 	public String createBusinessRule() {
 		String trigger =
-				"CREATE OR REPLACE trigger" + ruleId + "\n"
-				+"	AFTER insert or update \n"
-				+"	ON '"+entiteit+"' \n"
+				"CREATE OR REPLACE trigger " + ruleId + "\n"
+				+"	BEFORE insert or update \n"
+				+"	ON "+entiteit+" \n"
+				+"	FOR EACH ROW \n"
 				+"DECLARE \n"
 				+"	attribuut1 "+entiteit+"."+attribuut1+"%type := :NEW."+attribuut1+"; \n"
 				+"	attribuut2 "+entiteit+"."+attribuut2+"%type := :NEW."+attribuut2+"; \n"
 				+"BEGIN \n"
 				+"	IF attribuut1 "+operator+" attribuut2 THEN \n"
-			    +"		Raise_Application_Error (-20343,'"+  attribuut1 + "can not be " + operator  + "  then"+  attribuut2+ " '); \n"
+			    +"		Raise_Application_Error (-20343,'"+  attribuut1 + " can not be " + operator  + "  then "+  attribuut2+ " '); \n"
 				+"		ROLLBACK; \n"
 			    +"	END IF; \n"
-				+"END" +ruleId;
+				+"END;";
 		return trigger;
 	}
 }
