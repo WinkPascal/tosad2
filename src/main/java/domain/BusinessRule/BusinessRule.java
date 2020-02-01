@@ -73,17 +73,21 @@ public class BusinessRule implements BusinessRuleInterface{
 
 	}
 
-	public  void update(){
+	public  String update(){
 		BusinessRuleStrategy businessRule = getBusinessRule();
 		String query = businessRule.createBusinessRule();
 
 		ToolDatabaseDao toolDatabase = new ToolDatabaseDaoImpl();
 		toolDatabase.setGenerateSqlQuery(Integer.parseInt(id), query);
 
+		remove();
+
 		TargetDatabaseDao targetDatabase = new TargetDatabaseDaoImpl();
 		targetDatabase.execute(query);
 
-		toolDatabase.updateStatus(Integer.parseInt(id), "updated");
+
+		toolDatabase.updateStatus(Integer.parseInt(id), "executed");
+		return query;
 	}
 
 	private String getTriggerId(){

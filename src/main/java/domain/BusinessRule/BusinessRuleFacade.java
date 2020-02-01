@@ -2,11 +2,12 @@ package domain.BusinessRule;
 
 import database.ToolDatabase.ToolDatabaseDao;
 import database.ToolDatabase.ToolDatabaseDaoImpl;
- 
+
 public class BusinessRuleFacade implements BusinessRuleFacadeInterface {
 	private int id;
 	
 	public String createNewBusinessRule() {
+		System.out.println("save");
 		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
 		BusinessRule businessrule = dao.getRuleById(id);
 		return businessrule.generate();
@@ -18,8 +19,11 @@ public class BusinessRuleFacade implements BusinessRuleFacadeInterface {
 		return businessrule.remove();
 	}
 	
-	public void updateBusinessRule() {
-		// is eigenlijk gwn hetzelde als set
+	public String updateBusinessRule() {
+		System.out.println("update" + "===========================" + id);
+		ToolDatabaseDao dao = new ToolDatabaseDaoImpl();
+		BusinessRule businessrule = dao.getRuleById(id);
+		return businessrule.update();
 	}
 	
 	public void setBusinessRule() {
