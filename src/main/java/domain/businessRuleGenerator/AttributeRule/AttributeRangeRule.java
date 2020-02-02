@@ -37,7 +37,7 @@ public class AttributeRangeRule implements BusinessRuleStrategy{
 				+ "  	Raise_Application_Error (-20343, '"+  attribuut+ "  has a lower value then "+ minLimit+ "' ); \n "
 		     	+ "		ROLLBACK; \n"
 				+ "	END IF; \n"
-				+ "END " + ruleId;
+				+ "END;";
 		return trigger;
 	}
 }
