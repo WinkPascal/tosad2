@@ -134,9 +134,9 @@ public class BusinessRule implements BusinessRuleInterface{
 		case "ICMP":
 			rule = new InterEntityCompareRule(getTriggerId(),
 					operator,
-					attributes.get(0).getNaam(),
 					attributes.get(1).getNaam(),
-					attributes.get(0).getEntiteit(),
+					attributes.get(0).getNaam(),
+					attributes.get(1).getEntiteit(),
 					attributes.get(1).getNaam(),
 					attributes.get(1).getNaam());
 			break;
