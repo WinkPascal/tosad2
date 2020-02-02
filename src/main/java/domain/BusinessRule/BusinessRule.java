@@ -89,6 +89,9 @@ public class BusinessRule implements BusinessRuleInterface{
 
 	private BusinessRuleStrategy getBusinessRule() {
 		BusinessRuleStrategy rule = null;
+		System.out.println(attributes.get(0).getNaam());
+		System.out.println(attributes.get(0).getEntiteit());
+		System.out.println(id);
 		switch(code) {
 		//attribute rules
 		case "ARNG":
@@ -113,8 +116,8 @@ public class BusinessRule implements BusinessRuleInterface{
 			break;
 		case "AOTH":
 			rule = new AttributeOtherRule(getTriggerId(),
-					attributes.get(0).getNaam(),
-					attributes.get(0).getEntiteit());
+					attributes.get(0).getEntiteit(),
+					attributes.get(0).getNaam());
 			break;
 		//tuple rules
 		case "TCMP":
