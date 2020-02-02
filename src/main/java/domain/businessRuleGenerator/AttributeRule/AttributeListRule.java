@@ -11,7 +11,6 @@ public class AttributeListRule implements BusinessRuleStrategy {
 	private String entiteit;
 	private String attribute;
 	private List<String> values;
-	private String errorMessage;
 
 	
 	public AttributeListRule(String ruleId, String entiteit, String attribute, List<String> values) {

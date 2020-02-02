@@ -2,16 +2,19 @@ package domain.businessRuleGenerator.AttributeRule;
 
 import domain.businessRuleGenerator.BusinessRuleStrategy;
 
+import java.util.List;
+
 public class AttributeOtherRule implements BusinessRuleStrategy {
 
 	private String ruleId;
-	private String invoerveld;
 	private String entiteit;
+	private String attribute;
 
-	public AttributeOtherRule(String ruleId, String invoerveld, String entiteit) {
+
+	public AttributeOtherRule(String ruleId, String entiteit, String attribute) {
 		this.ruleId = ruleId;
-		this.invoerveld = invoerveld;
 		this.entiteit = entiteit;
+		this.attribute = attribute;
 	}
 
 
@@ -23,8 +26,8 @@ public class AttributeOtherRule implements BusinessRuleStrategy {
 				"	ON "+entiteit+
 				"   FOR EACH ROW \n "+
 				"BEGIN \n" +
-				"	IF "+ invoerveld + "THEN \n" +
-				"		Raise_Application_Error (-20343, '"+ invoerveld+ " '); \n" +
+				"	IF "+ attribute + "THEN \n" +
+				"		Raise_Application_Error (-20343, '"+ attribute + " '); \n" +
 				"		ROLLBACK; \n"+
 				"	END IF; \n" +
 				"END;";
