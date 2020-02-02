@@ -1,6 +1,5 @@
 package domain.BusinessRule;
 
-import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
 import database.TargetDatabase.TargetDatabaseDao;
@@ -52,12 +51,9 @@ public class BusinessRule implements BusinessRuleInterface{
 		targetDatabase.execute(query);
 
 		toolDatabase.updateStatus(Integer.parseInt(id), "executed");
-
-
 	}
 	
 	public String remove() {
-
 		String query = "DROP TRIGGER " + getTriggerId();
 		TargetDatabaseDao targetDatabase = new TargetDatabaseDaoImpl();
 		if(targetDatabase.execute(query)) {
@@ -65,12 +61,9 @@ public class BusinessRule implements BusinessRuleInterface{
 			toolDatabase.updateStatus(Integer.parseInt(id), "removed");
 			return "Rule met id: " + id + " verwijderd";
 		}
-
 		else{
 			return "Kon rule met id: " + id + " niet verwijderen";
 		}
-
-
 	}
 
 	public  String update(){
@@ -96,7 +89,6 @@ public class BusinessRule implements BusinessRuleInterface{
 
 	private BusinessRuleStrategy getBusinessRule() {
 		BusinessRuleStrategy rule = null;
-		System.out.println(code +" ============");
 		switch(code) {
 		//attribute rules
 		case "ARNG":
@@ -120,7 +112,9 @@ public class BusinessRule implements BusinessRuleInterface{
 					attributes.get(0).getValues());
 			break;
 		case "AOTH":
-			rule = new AttributeOtherRule();
+			rule = new AttributeOtherRule(getTriggerId(),
+					attributes.get(0).getNaam(),
+					attributes.get(0).getEntiteit());
 			break;
 		//tuple rules
 		case "TCMP":
