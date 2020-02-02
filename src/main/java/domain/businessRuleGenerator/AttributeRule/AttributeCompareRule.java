@@ -22,15 +22,14 @@ public class AttributeCompareRule implements BusinessRuleStrategy{
 	public String createBusinessRule() {
 		String trigger = 
 				"CREATE OR REPLACE TRIGGER "+ruleId+ " \n"+
-				"	BEFORE insert or update \n"+
+				"	AFTER insert or update \n"+
 				"	ON "+entiteit+" FOR EACH ROW \n "+
-				"FOR EACH ROW \n"+
 				"DECLARE \n" +
 				"	value varchar2(255) := "+value+"; \n" +
 				"	attribute "+ entiteit + "."+attribuut+"%type := :NEW."+attribuut+"; \n" +
 				"BEGIN \n" +
 				"	IF attribute "+operator+" value THEN \n" +
-				"		Raise_Application_Error (-20343, " +attribuut  + "  can not be " + operator+  " then " +  value+ "'); \n" +
+				"		Raise_Application_Error (-20343, ' " +attribuut  + "  can not be " + operator+  " then " +  value+ "'); \n" +
 				"		ROLLBACK; \n"+
 				"	END IF; \n" +
 				"END;";

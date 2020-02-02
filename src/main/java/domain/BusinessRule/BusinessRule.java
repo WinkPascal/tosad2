@@ -112,7 +112,8 @@ public class BusinessRule implements BusinessRuleInterface{
 			rule = new AttributeListRule(getTriggerId(),
 					attributes.get(0).getEntiteit(),
 					attributes.get(0).getNaam(),
-					attributes.get(0).getValues());
+					attributes.get(0).getValues(),
+					operator);
 			break;
 		case "AOTH":
 			rule = new AttributeOtherRule(getTriggerId(),

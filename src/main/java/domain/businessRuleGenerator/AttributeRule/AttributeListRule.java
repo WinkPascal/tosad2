@@ -11,13 +11,15 @@ public class AttributeListRule implements BusinessRuleStrategy {
 	private String entiteit;
 	private String attribute;
 	private List<String> values;
+	private String operator;
 
 	
-	public AttributeListRule(String ruleId, String entiteit, String attribute, List<String> values) {
+	public AttributeListRule(String ruleId, String entiteit, String attribute, List<String> values, String operator) {
 		this.ruleId = ruleId;
 		this.entiteit = entiteit;
 		this.attribute = attribute;
 		this.values = values;
+		this.operator = operator;
 	}
 
 	@Override
@@ -30,7 +32,7 @@ public class AttributeListRule implements BusinessRuleStrategy {
 			+   "	attribute " +entiteit+"."+attribute+"%type := :NEW."+attribute+"; \n"
 			+   "BEGIN \n"
 			+   "	IF attribute NOT IN "+getList()+ " THEN \n"
-			+   "		Raise_Application_Error(-20343,'" +  attribute + " is not found in  + getList() + ' ); \n"
+			+   "		Raise_Application_Error(-20343,'" +  attribute + " is " + operator  +" in  + getList() + ' ); \n"
 			+   "		ROLLBACK; \n"
 			+   "	END IF; \n"
 			+   "END;";
